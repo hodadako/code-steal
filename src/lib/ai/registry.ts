@@ -11,6 +11,17 @@ const PROVIDERS: Record<AiProviderId, AiProvider> = {
 
 const PROVIDER_ORDER: AiProviderId[] = ["gemini", "openai", "anthropic"];
 
+function hasProviderSpecificKey(id: AiProviderId): boolean {
+  switch (id) {
+    case "gemini":
+      return Boolean(process.env.GEMINI_API_KEY?.trim());
+    case "openai":
+      return Boolean(process.env.OPENAI_API_KEY?.trim());
+    case "anthropic":
+      return Boolean(process.env.ANTHROPIC_API_KEY?.trim());
+  }
+}
+
 function parseProviderId(raw: string | undefined): AiProviderId | null {
   const id = raw?.trim().toLowerCase();
   if (id === "gemini" || id === "google") return "gemini";
@@ -33,11 +44,10 @@ export function resolveAiProvider(): AiProvider | null {
   }
 
   for (const id of PROVIDER_ORDER) {
-    const provider = PROVIDERS[id];
-    if (provider.isConfigured()) return provider;
+    if (hasProviderSpecificKey(id)) return PROVIDERS[id];
   }
 
-  return null;
+  return process.env.AI_API_KEY?.trim() ? openaiProvider : null;
 }
 
 export function getAiStatus(): AiStatus {

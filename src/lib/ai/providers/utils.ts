@@ -21,7 +21,7 @@ export function readApiKey(
   providerKey: string | undefined,
   universalKey = process.env.AI_API_KEY?.trim(),
 ): string | null {
-  return universalKey || providerKey?.trim() || null;
+  return providerKey?.trim() || universalKey || null;
 }
 
 export function readModel(

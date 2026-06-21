@@ -28,16 +28,24 @@ npm run dev
 
 템플릿은 원본 지문 페이지에서 다운로드할 수 있습니다.
 
-## AI 연동 (Google Gemini 무료)
+## AI 연동
 
-1. [Google AI Studio](https://aistudio.google.com/apikey)에서 무료 API 키 발급
-2. 프로젝트 루트에 `.env.local` 생성:
+OpenAI는 다음 환경변수 하나만 설정하면 됩니다.
 
 ```
-GEMINI_API_KEY=발급받은_키
+OPENAI_API_KEY=발급받은_키
 ```
 
-3. 개발 서버 재시작 (`npm.cmd run dev`)
+공용 변수는 OpenAI 호환 API를 기본값으로 사용합니다.
+
+```
+AI_API_KEY=발급받은_키
+```
+
+Gemini 또는 Anthropic에서 공용 변수를 사용하려면 `AI_PROVIDER`도 함께
+설정하세요. 로컬에서는 프로젝트 루트의 `.env.local`에 넣고 개발 서버를
+재시작합니다. Vercel에서는 프로젝트의 Environment Variables에 추가한 뒤
+해당 환경을 재배포해야 새 값이 적용됩니다.
 
 API 키가 없으면 mock 생성기로 동작합니다. AI 실패 시에도 mock으로 자동 fallback됩니다.
 
