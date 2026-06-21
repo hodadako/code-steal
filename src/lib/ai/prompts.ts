@@ -57,22 +57,25 @@ ${source.explanation ? `## 참고 해설\n${source.explanation}\n` : ""}
 ${taskList}
 
 ## 출력 규칙
-- 반드시 아래 JSON 배열만 출력 (마크다운·설명 금지)
+- 반드시 JSON만 출력 (마크다운·설명 금지)
+- 형식: {"questions": [ ... ]} — questions 배열에 문항 객체
 - 각 문항: type, difficulty, passage, question, choices(문자열 5개), answer(0~4 정수), explanation(한국어 해설)
 - question은 "[하/중/상]" 접두어 없이 순수 문제 지시문만
 - choices는 정확히 5개
 - answer는 choices 배열에서 정답의 0-based index
 
 JSON 형식:
-[
-  {
-    "type": "topic_sentence_en",
-    "difficulty": "medium",
-    "passage": "...",
-    "question": "다음 글의 주제로 가장 적절한 것은?",
-    "choices": ["선지1", "선지2", "선지3", "선지4", "선지5"],
-    "answer": 0,
-    "explanation": "해설"
-  }
-]`;
+{
+  "questions": [
+    {
+      "type": "topic_sentence_en",
+      "difficulty": "medium",
+      "passage": "...",
+      "question": "다음 글의 주제로 가장 적절한 것은?",
+      "choices": ["선지1", "선지2", "선지3", "선지4", "선지5"],
+      "answer": 0,
+      "explanation": "해설"
+    }
+  ]
+}`;
 }

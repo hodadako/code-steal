@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { generateWithGemini, isGeminiConfigured } from "@/lib/ai/gemini";
+import { generateWithAi, getAiStatus, isAiConfigured } from "@/lib/ai";
 import { QUESTION_TYPE_LABELS } from "@/lib/constants";
 import { generateQuestions, regenerateSingleQuestion } from "@/lib/generator";
 import type { GenerationOption, Question, SourceDocument } from "@/lib/types";
@@ -37,7 +37,7 @@ async function generateWithPerTaskFallback(
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
     try {
-      const result = await generateWithGemini(source, [task]);
+      const result = await generateWithAi(source, [task]);
       questions.push(result[0]);
     } catch (aiError) {
       const message =
@@ -57,13 +57,8 @@ async function generateWithPerTaskFallback(
 }
 
 export async function GET() {
-  return NextResponse.json({
-    configured: isGeminiConfigured(),
-    provider: "Google Gemini",
-    model: process.env.GEMINI_MODEL?.trim() || "gemini-2.5-flash",
-    mode: isGeminiConfigured() ? "ai" : "mock",
-    setupUrl: "https://aistudio.google.com/apikey",
-  });
+  const status = getAiStatus();
+  return NextResponse.json(status);
 }
 
 export async function POST(req: Request) {
@@ -80,11 +75,11 @@ export async function POST(req: Request) {
     const warnings: string[] = [];
     let mockIndices: number[] = [];
 
-    if (isGeminiConfigured()) {
+    if (isAiConfigured()) {
       mode = "ai";
       try {
         if (regenerate) {
-          questions = await generateWithGemini(source, [
+          questions = await generateWithAi(source, [
             {
               type: regenerate.type,
               difficulty: regenerate.difficulty,

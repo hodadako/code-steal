@@ -10,9 +10,11 @@ interface GenerateResponse {
 export interface ApiStatus {
   configured: boolean;
   provider: string;
+  providerId?: string | null;
   model: string;
   mode: "ai" | "mock";
   setupUrl: string;
+  envKeyHint?: string;
 }
 
 export async function fetchApiStatus(): Promise<ApiStatus> {

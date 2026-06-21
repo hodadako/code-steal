@@ -399,7 +399,7 @@ export default function GeneratePage() {
 
                 <p className="font-medium">
 
-                  Gemini AI 연결됨 · {apiStatus.model}
+                  {apiStatus.provider} 연결됨 · {apiStatus.model}
 
                 </p>
 
@@ -435,7 +435,7 @@ export default function GeneratePage() {
 
                   <code className="rounded bg-white/60 px-1">
 
-                    GEMINI_API_KEY
+                    {apiStatus.envKeyHint ?? "AI_API_KEY"}
 
                   </code>
 
