@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ExamForge — 유사 시험 문제 플랫폼
 
-## Getting Started
+영어 수능 유형 유사 문제 생성 및 시험지 제작 플랫폼입니다.
 
-First, run the development server:
+## 실행 방법
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+브라우저에서 [http://localhost:3000](http://localhost:3000) 접속
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 주요 기능
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **원본 지문 등록**: 영어 지문 + 해설(선택) 직접 입력 또는 엑셀 일괄 등록
+- **유사 문제 생성**: 수능 유형별 옵션(난이도 상/중/하, 1~3문항) 선택 후 생성
+- **좌우 비교 뷰**: 원본 지문과 생성 문항을 나란히 확인
+- **문항 편집/재생성**: 지문·선지 편집, 개별/전체 재생성
+- **문항 DB**: 생성된 문항 저장 및 검색
+- **시험지 만들기**: 문항 선택 → 미리보기 → 문항 교체/순서 변경 → PDF 저장
 
-## Learn More
+## 엑셀 형식
 
-To learn more about Next.js, take a look at the following resources:
+| 제목 | 지문 | 해설 |
+|------|------|------|
+| Sample | English passage... | Optional |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+템플릿은 원본 지문 페이지에서 다운로드할 수 있습니다.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## AI 연동 (Google Gemini 무료)
 
-## Deploy on Vercel
+1. [Google AI Studio](https://aistudio.google.com/apikey)에서 무료 API 키 발급
+2. 프로젝트 루트에 `.env.local` 생성:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+GEMINI_API_KEY=발급받은_키
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. 개발 서버 재시작 (`npm.cmd run dev`)
+
+API 키가 없으면 mock 생성기로 동작합니다. AI 실패 시에도 mock으로 자동 fallback됩니다.
+
+`env.example` 파일을 참고하세요.
+
+Next.js 16 · React 19 · TypeScript · Tailwind CSS · Pretendard · Zustand · xlsx · jsPDF
